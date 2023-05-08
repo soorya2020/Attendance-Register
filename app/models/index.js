@@ -1,6 +1,9 @@
 const dbConfig = require("../config/db.config.js");
-
+const EmployeeModel = require('./employee.model');
+const AttendanceModel = require('./attendance.model');
 const Sequelize = require("sequelize");
+
+
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
@@ -12,13 +15,21 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     acquire: dbConfig.pool.acquire,
     idle: dbConfig.pool.idle
   }
-});
+}); 
+
+const Employee = EmployeeModel(sequelize, Sequelize);
+const Attendance = AttendanceModel(sequelize, Sequelize);
+
+Attendance.belongsTo(Employee, { foreignKey: 'empId' });
 
 const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.Employee = Employee;
+db.Attendance = Attendance;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+
+
 
 module.exports = db;
