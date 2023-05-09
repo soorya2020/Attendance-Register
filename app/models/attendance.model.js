@@ -6,10 +6,10 @@ const AttendanceModel = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    empId:{
-      type:DataTypes.INTEGER,
-      allowNull:false,
-    },
+    // empId:{
+    //   type:DataTypes.INTEGER,
+    //   allowNull:false,
+    // },
     date: {
       type: DataTypes.DATE,
       allowNull: false
