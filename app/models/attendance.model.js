@@ -12,7 +12,8 @@ const AttendanceModel = (sequelize, DataTypes) => {
     // },
     date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      allowNull:false
     },
     status:{
       type: DataTypes.ENUM('Present', 'Absent'),

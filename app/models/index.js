@@ -32,9 +32,9 @@ Attendance.belongsTo(Employee, {
   foreignKey: 'empId',
 })
 
-Employee.describe().then(description => {
-  console.log(description);
-});
+// Employee.describe().then(description => {
+//   console.log(description);
+// });
 
 
 const db = {};

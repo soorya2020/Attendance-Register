@@ -1,14 +1,22 @@
 const router=require('express').Router()
-const tutorials = require("../controllers/employee.controller.js");
+const employee = require("../controllers/employee.controller.js");
 
 
 // Create a new Employee
-router.post("/", tutorials.create);
+router.get("/", employee.test);
+
+router.post('/add',employee.create)
+
+router.get('/employees',employee.findAll)
+
+router.get('/attendace',employee.markAttendance)
+
+// router.
 
 // Fetch all Employee
-router.get("/", (req,res)=>{
-  res.send('machane kitti poi')
-});
+// router.get("/", (req,res)=>{
+//   res.send('machane kitti poi')
+// });
 
 
 

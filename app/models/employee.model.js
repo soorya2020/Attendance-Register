@@ -6,7 +6,7 @@ const EmployeeModel = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      emp_name: {
+      empName: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -20,7 +20,7 @@ const EmployeeModel = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true
       },
-      joining_date: {
+      joiningDate: {
         type: DataTypes.DATE,
         allowNull: false
       },
