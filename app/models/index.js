@@ -20,7 +20,22 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const Employee = EmployeeModel(sequelize, Sequelize);
 const Attendance = AttendanceModel(sequelize, Sequelize);
 
-Attendance.belongsTo(Employee, { foreignKey: 'empId' });
+Employee.hasMany(Attendance, {
+  foreignKey: 'empId',
+  references: {
+    model: Employee,
+    key: 'id'
+  }
+});
+
+Attendance.belongsTo(Employee, {
+  foreignKey: 'empId',
+})
+
+Attendance.describe().then(description => {
+  console.log(description);
+});
+
 
 const db = {};
 
