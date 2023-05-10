@@ -15,6 +15,13 @@ const AttendanceModel = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('Present', 'Absent'),
       allowNull: false
     }
+  },{
+    indexes: [
+      {
+        unique: true,
+        fields: ['empId', 'date']
+      }
+    ]
   });
 
   return Attendance;

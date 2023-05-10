@@ -9,6 +9,7 @@ module.exports.test = (req, res) => {
   res.send("hellow soorya everything is working");
 };
 
+
 module.exports.create = (req, res) => {
   const empData = req.body;
 
@@ -20,6 +21,7 @@ module.exports.create = (req, res) => {
       res.send(err.errors[0].message);
     });
 };
+
 
 module.exports.findAll = async (req, res) => {
   const { page, size } = req.query;
@@ -36,7 +38,6 @@ module.exports.findAll = async (req, res) => {
 module.exports.markAttendance = async (req, res) => {
   try {
     const { empId, date, status } = req.body;
-   
 
     const response = await Attendance.create({ empId, date, status });
 
@@ -77,37 +78,38 @@ module.exports.getAttendance = async (req, res) => {
 
 module.exports.getAllAttendace = async (req, res) => {
   try {
-    const date = req.query.date.trim('T');
-console.log(date);
+    const date = new Date(req.query.date);
+
     const data = await Attendance.findAll({
-      attributes:['empId','status'],
+      attributes: ["empId", "status"],
       where: {
         date: date,
       },
     });
 
     res.send(data);
+
   } catch (error) {
+
     console.log(error);
     res.send(error);
   }
 };
 
-module.exports.searchByText=async(req,res)=>{
+module.exports.searchByText = async (req, res) => {
   try {
-    const text=req.query.text
+    const text = req.query.text;
 
-    const data=await Employee.findAll({
-      where:{
-        empName:{
-          [Op.like]:`%${text}%`
-        }
-      }
-    })
+    const data = await Employee.findAll({
+      where: {
+        empName: {
+          [Op.like]: `%${text}%`,
+        },
+      },
+    });
 
-    res.send(data)
-
+    res.send(data);
   } catch (error) {
-    res.send(error)
+    res.send(error);
   }
-}
+};

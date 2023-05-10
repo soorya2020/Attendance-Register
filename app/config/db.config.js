@@ -4,9 +4,10 @@ module.exports = {
   PASSWORD: "Root@123",
   DB: "soorya",
   dialect: "mysql", 
-  dialectOptions: {
-    useUTC: true, // tell the driver you want to use UTC
-  },
+  // dialectOptions: {
+  //   useUTC: true, // reading
+  // },
+  // timezone:'+08:00',//writing
 
   pool: {
     max: 5,
@@ -15,3 +16,4 @@ module.exports = {
     idle: 10000
   }
 };
+
