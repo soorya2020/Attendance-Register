@@ -1,3 +1,5 @@
+const Employee=require('../models/attendance.model')
+
 module.exports.getPagination = (page, size) => {
     
   const limit = size ? +size : 3;
@@ -12,12 +14,20 @@ module.exports.getPagination = (page, size) => {
 
 module.exports.getPaginationData = (data, page, limit) => {
 
-  const { count: totalItems, rows: employees } = data;
+  const { count: totalItems, rows: result } = data;
 
-  const currentPage = page ? page : 0;
+  const currentPage = page ? +page : 0;
 
   const totalPages = Math.ceil(totalItems / limit);
 
-  return {totalItems,totalPages,currentPage,employees}
+  return {totalItems,totalPages,currentPage,result}
 
 };
+
+
+module.exports.findEmployeeId=(empName,email)=>{
+
+    const data=Employee.findOne({where:{empName,email},attributes:['id']})
+    
+    return data.id
+}

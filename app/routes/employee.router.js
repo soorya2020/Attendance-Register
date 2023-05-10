@@ -9,7 +9,13 @@ router.post('/add',employee.create)
 
 router.get('/employees',employee.findAll)
 
-router.get('/attendace',employee.markAttendance)
+router.post('/mark-attendance/',employee.markAttendance)
+
+router.get('/get-attendance/',employee.getAttendance)
+
+router.get('/attendace-by-date',employee.getAllAttendace)
+
+router.get('/search-employee',employee.searchByText)
 
 // router.
 

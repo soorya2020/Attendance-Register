@@ -3,7 +3,11 @@ module.exports = {
   USER: "root",
   PASSWORD: "Root@123",
   DB: "soorya",
-  dialect: "mysql",
+  dialect: "mysql", 
+  dialectOptions: {
+    useUTC: true, // tell the driver you want to use UTC
+  },
+
   pool: {
     max: 5,
     min: 0,
