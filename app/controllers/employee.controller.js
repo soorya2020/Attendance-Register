@@ -1,11 +1,13 @@
 const db = require("../models");
 const helper = require("../helpers/employeeHelper");
+const logger=require('../logger/logger')
 const Employee = db.Employee;
 const Attendance = db.Attendance;
 const Op = db.Sequelize.Op;
 
 //demo api
 module.exports.test = (req, res) => {
+  logger(req, req.metadata, 25);
   res.send("hellow soorya everything is working");
 };
 
@@ -15,10 +17,13 @@ module.exports.create = (req, res) => {
 
   Employee.create(empData)
     .then((data) => {
+      
       res.send(data);
+
     })
     .catch((err) => {
       res.send(err.errors[0].message);
+
     });
 };
 

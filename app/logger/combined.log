@@ -1,0 +1,3 @@
+{"level":"info","message":"Processed GET request to /api/employee/ in 25ms","timestamp":"2023-05-11T06:02:49.584Z","label":"my-app"}
+[object Object]
+{"level":"info","message":"Processed GET request to /api/employee/ in 25ms","timestamp":"2023-05-11T06:05:31.511Z","label":"attendance_api"}
