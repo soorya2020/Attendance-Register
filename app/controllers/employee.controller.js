@@ -3,13 +3,13 @@ const helper = require("../helpers/employeeHelper");
 const Employee = db.Employee;
 const Attendance = db.Attendance;
 const Op = db.Sequelize.Op;
-const sequelize = require("sequelize");
 
+//demo api
 module.exports.test = (req, res) => {
   res.send("hellow soorya everything is working");
 };
 
-
+//create employee
 module.exports.create = (req, res) => {
   const empData = req.body;
 
@@ -22,7 +22,7 @@ module.exports.create = (req, res) => {
     });
 };
 
-
+//find all employees
 module.exports.findAll = async (req, res) => {
   const { page, size } = req.query;
 
@@ -35,9 +35,12 @@ module.exports.findAll = async (req, res) => {
   res.send(response);
 };
 
+//mark attendence to employee
 module.exports.markAttendance = async (req, res) => {
   try {
-    const { empId, date, status } = req.body;
+    let { empId, date, status } = req.body;
+    // date=new Date(date)
+    // console.log(date);
 
     const response = await Attendance.create({ empId, date, status });
 
@@ -49,6 +52,7 @@ module.exports.markAttendance = async (req, res) => {
   }
 };
 
+//get attendace of an employee
 module.exports.getAttendance = async (req, res) => {
   try {
     const { page, size, empId, sortBy } = req.query;
@@ -57,13 +61,9 @@ module.exports.getAttendance = async (req, res) => {
 
     const data = await Attendance.findAndCountAll({
       attributes: ["date", "status"],
-
       where: { empId },
-
       order: [[`${sortBy}`, "ASC"]],
-
       offset,
-
       limit,
     });
 
@@ -76,6 +76,7 @@ module.exports.getAttendance = async (req, res) => {
   }
 };
 
+//get attendace record for a given date
 module.exports.getAllAttendace = async (req, res) => {
   try {
     const date = new Date(req.query.date);
@@ -96,6 +97,7 @@ module.exports.getAllAttendace = async (req, res) => {
   }
 };
 
+//search employee name by text
 module.exports.searchByText = async (req, res) => {
   try {
     const text = req.query.text;

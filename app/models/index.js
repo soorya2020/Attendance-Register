@@ -22,20 +22,13 @@ const Attendance = AttendanceModel(sequelize, Sequelize);
 
 Employee.hasMany(Attendance, {
   foreignKey: 'empId',
-  references: {
-    model: Employee,
-    key: 'id'
-  }
+  
 });
 
 Attendance.belongsTo(Employee, {
   foreignKey: 'empId',
+ 
 })
-
-Attendance.describe().then(description => {
-  console.log(description);
-});
-
 
 const db = {};
 

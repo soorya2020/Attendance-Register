@@ -21,12 +21,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/employee',userRoute)
 
 
-
-
-
-
-
-
 db.sequelize.sync()
   .then(() => {
     console.log("Synced db.");

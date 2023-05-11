@@ -6,7 +6,7 @@ module.exports.getPagination = (page, size) => {
   
   const offset = page ? +page * +limit : 0;
 
-  console.log(limit,offset);
+  // console.log(limit,offset);
 
   return { limit, offset };
 

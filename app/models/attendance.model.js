@@ -14,6 +14,10 @@ const AttendanceModel = (sequelize, DataTypes) => {
     status:{
       type: DataTypes.ENUM('Present', 'Absent'),
       allowNull: false
+    },
+    empId:{
+      type:DataTypes.INTEGER,
+      allowNull:false
     }
   },{
     indexes: [
