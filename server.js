@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./app/models");
+const db = require("./src/models");
 const app = express();
-const userRoute=require('./app/routes/employee.router')
+const userRoute=require('./src/routes/employee.router')
+require('dotenv').config()
 
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:8085"
 };
 
 app.use(cors(corsOptions));

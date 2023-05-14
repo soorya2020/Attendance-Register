@@ -1,13 +1,14 @@
 const db = require("../models");
 const helper = require("../helpers/employeeHelper");
-const logger=require('../logger/logger')
+const loggerFormat=require('../logger');
+const { log } = require("winston");
 const Employee = db.Employee;
 const Attendance = db.Attendance;
 const Op = db.Sequelize.Op;
 
 //demo api
 module.exports.test = (req, res) => {
-  logger(req, req.metadata, 25);
+  loggerFormat(req, req.metadata, 25);
   res.send("hellow soorya everything is working");
 };
 
@@ -18,11 +19,11 @@ module.exports.create = (req, res) => {
   Employee.create(empData)
     .then((data) => {
       
-      res.send(data);
+      res.status(200).send(data);
 
     })
     .catch((err) => {
-      res.send(err.errors[0].message);
+      res.status(500).send(err.errors[0].message);
 
     });
 };
@@ -31,7 +32,7 @@ module.exports.create = (req, res) => {
 module.exports.findAll = async (req, res) => {
   const { page, size } = req.query;
 
-  const { limit, offset } = helper.getPagination(page, size);
+  const { limit, offset } = helper.getPagination({page, size});
 
   const data = await Employee.findAndCountAll({ limit, offset });
 
@@ -49,7 +50,7 @@ module.exports.markAttendance = async (req, res) => {
 
     const response = await Attendance.create({ empId, date, status });
 
-    console.log(response);
+    // console.log(response);
 
     res.status(200).send(response);
   } catch (err) {
@@ -61,7 +62,6 @@ module.exports.markAttendance = async (req, res) => {
 module.exports.getAttendance = async (req, res) => {
   try {
     const { page, size, empId, sortBy } = req.query;
-
     const { limit, offset } = helper.getPagination(page, size);
 
     const data = await Attendance.findAndCountAll({
@@ -71,7 +71,6 @@ module.exports.getAttendance = async (req, res) => {
       offset,
       limit,
     });
-
     const response = helper.getPaginationData(data, page, limit);
 
     res.send(response);
@@ -115,8 +114,13 @@ module.exports.searchByText = async (req, res) => {
       },
     });
 
+    if(data.length===0) throw new Error('data not found')
+
     res.send(data);
   } catch (error) {
-    res.send(error);
+    res.status(404).send({error});
   }
 };
+
+
+

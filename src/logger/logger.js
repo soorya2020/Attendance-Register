@@ -1,6 +1,5 @@
 const { createLogger, transports, format } = require('winston');
 const { combine, timestamp, label, printf } = format;
-const util = require('util');
 
 const logger = createLogger({
   format: combine(
@@ -22,16 +21,4 @@ const logger = createLogger({
   ]
 });
 
-function logRequest(req, metadata, timeTaken) {
-  const message = util.format('Processed %s request to %s in %dms', req.method, req.originalUrl, timeTaken);
-  logger.info(message, metadata);
-}
-
-// // Example usage
-// const req = { method: 'GET', originalUrl: '/users' };
-// const metadata = { user: 'johndoe' };
-// const timeTaken = 100;
-// logRequest(req, metadata, timeTaken);
-
-
-module.exports=logRequest
+module.exports=logger

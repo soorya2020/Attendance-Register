@@ -5,7 +5,7 @@ const employee = require("../controllers/employee.controller.js");
 // Create a new Employee
 router.get("/", employee.test);
 
-router.post('/add',employee.create)
+router.post('/add-employee',employee.create)
 
 router.get('/employees',employee.findAll)
 

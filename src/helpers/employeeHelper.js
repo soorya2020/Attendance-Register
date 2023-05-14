@@ -1,12 +1,10 @@
 const Employee=require('../models/attendance.model')
 
-module.exports.getPagination = (page, size) => {
+module.exports.getPagination = ({ page=0 ,size=0}={}) => {
     
   const limit = size ? +size : 3;
   
-  const offset = page ? +page * +limit : 0;
-
-  // console.log(limit,offset);
+  const offset = page ? +page * limit : 0;
 
   return { limit, offset };
 
