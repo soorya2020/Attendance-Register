@@ -1,5 +1,6 @@
 const { createLogger, transports, format } = require('winston');
 const { combine, timestamp, label, printf } = format;
+const util = require('util');
 
 const logger = createLogger({
   format: combine(
@@ -16,9 +17,16 @@ const logger = createLogger({
   ),
   transports: [
     new transports.File({
-        filename: '/home/ubuntu/soorya/miniProject2/app/logger/combined.log'
+        filename: './src/logger/combined.log'
       })
   ]
 });
 
-module.exports=logger
+
+
+const loggerFormat=(req, metadata, timeTaken)=>{
+    const message = util.format('Processed %s request to %s in %dms', req.method, req.originalUrl, timeTaken);
+    logger.info(message, metadata);
+  }
+
+module.exports=loggerFormat

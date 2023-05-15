@@ -1,2 +1,8 @@
 2023-05-11T05:20:14.867Z warn: Successfully tested
 2023-05-11T05:20:15.024Z warn: Successfully tested
+{"level":"info","message":"Info message","timestamp":"2023-05-15T04:44:12.478Z"}
+{"level":"error","message":"Error message","timestamp":"2023-05-15T04:44:12.479Z"}
+{"level":"warn","message":"Warning message","timestamp":"2023-05-15T04:44:12.479Z"}
+{"level":"info","message":"Info message","timestamp":"2023-05-15T04:44:26.627Z"}
+{"level":"error","message":"Error message","timestamp":"2023-05-15T04:44:26.628Z"}
+{"level":"warn","message":"Warning message","timestamp":"2023-05-15T04:44:26.628Z"}

@@ -4,11 +4,14 @@ const db = require("./src/models");
 const app = express();
 const userRoute=require('./src/routes/employee.router')
 require('dotenv').config()
+const chalk = require('chalk');
+const ip = require('ip');
+
 
 
 var corsOptions = {
   origin: "http://localhost:8085"
-};
+}
 
 app.use(cors(corsOptions));
 
@@ -24,14 +27,20 @@ app.use('/api/employee',userRoute)
 
 db.sequelize.sync()
   .then(() => {
-    console.log("Synced db.");
+    console.log(`${chalk.magenta('db synced')}`);
   })
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
-  });
+  })
 
 // set port, listen for requests
+const divider = chalk.gray('\n-----------------------------------------------------------');
+
 const PORT = process.env.PORT || 8085;
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  console.log(`${chalk.bold('Access URLs:')}${divider}
+Localhost: ${chalk.magenta(`http://localhost:${PORT}`)}
+On Your Network: ${chalk.magenta(`http://${ip.address()}:${PORT}`)}${divider}
+`);
 });

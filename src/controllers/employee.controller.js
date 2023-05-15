@@ -1,10 +1,12 @@
 const db = require("../models");
 const helper = require("../helpers/employeeHelper");
-const loggerFormat=require('../logger');
-const { log } = require("winston");
+const loggerFormat=require('../logger/logger');
+
 const Employee = db.Employee;
 const Attendance = db.Attendance;
 const Op = db.Sequelize.Op;
+
+const duration=0.005
 
 //demo api
 module.exports.test = (req, res) => {
@@ -19,10 +21,12 @@ module.exports.create = (req, res) => {
   Employee.create(empData)
     .then((data) => {
       
+      loggerFormat(req, req.metadata, duration);
       res.status(200).send(data);
 
     })
     .catch((err) => {
+      loggerFormat(req, req.metadata, duration);
       res.status(500).send(err.errors[0].message);
 
     });
@@ -30,30 +34,34 @@ module.exports.create = (req, res) => {
 
 //find all employees
 module.exports.findAll = async (req, res) => {
-  const { page, size } = req.query;
+  try {
+    const { page, size } = req.query;
+    const { limit, offset } = helper.getPagination({page, size});
+    const data = await Employee.findAndCountAll({ limit, offset }); 
+    const response = helper.getPaginationData(data, page, limit);
 
-  const { limit, offset } = helper.getPagination({page, size});
+    loggerFormat(req, req.metadata, duration);
+    res.send(response);
 
-  const data = await Employee.findAndCountAll({ limit, offset });
+  } catch (error) {
 
-  const response = helper.getPaginationData(data, page, limit);
-
-  res.send(response);
+    loggerFormat(req, req.metadata, duration);
+    res.status(500).send(error)
+  }
 };
 
 //mark attendence to employee
 module.exports.markAttendance = async (req, res) => {
   try {
     let { empId, date, status } = req.body;
-    // date=new Date(date)
-    // console.log(date);
-
     const response = await Attendance.create({ empId, date, status });
 
-    // console.log(response);
-
+    loggerFormat(req, req.metadata, duration);
     res.status(200).send(response);
+
   } catch (err) {
+
+    loggerFormat(req, req.metadata, duration);
     res.status(err.status || 500).send(err.parent.sqlMessage);
   }
 };
@@ -73,10 +81,13 @@ module.exports.getAttendance = async (req, res) => {
     });
     const response = helper.getPaginationData(data, page, limit);
 
+    loggerFormat(req, req.metadata, duration);
     res.send(response);
+
   } catch (err) {
-    console.log(err);
-    res.send(err.parent.code);
+
+    loggerFormat(req, req.metadata, duration);
+    res.status(500).send(err.parent.code);
   }
 };
 
@@ -84,7 +95,6 @@ module.exports.getAttendance = async (req, res) => {
 module.exports.getAllAttendace = async (req, res) => {
   try {
     const date = new Date(req.query.date);
-
     const data = await Attendance.findAll({
       attributes: ["empId", "status"],
       where: {
@@ -92,20 +102,21 @@ module.exports.getAllAttendace = async (req, res) => {
       },
     });
 
+    loggerFormat(req, req.metadata, duration);
     res.send(data);
 
   } catch (error) {
 
-    console.log(error);
-    res.send(error);
+    loggerFormat(req, req.metadata, duration);
+    res.status(500).send(error);
   }
 };
 
 //search employee name by text
 module.exports.searchByText = async (req, res) => {
   try {
+    const startTime = Date.now();
     const text = req.query.text;
-
     const data = await Employee.findAll({
       where: {
         empName: {
@@ -116,8 +127,14 @@ module.exports.searchByText = async (req, res) => {
 
     if(data.length===0) throw new Error('data not found')
 
+    const endTime = Date.now();
+    const duration = (endTime - startTime) / 1000;
+    loggerFormat(req, req.metadata, duration);
+
     res.send(data);
   } catch (error) {
+
+    loggerFormat(req, req.metadata, duration);
     res.status(404).send({error});
   }
 };
